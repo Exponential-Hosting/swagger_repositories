@@ -1,0 +1,102 @@
+{
+   "openapi":"3.0.0",
+   "info":{
+      "title":"Image Cropper API",
+      "description":"This API allows users to crop images.",
+      "termsOfService":"https://www.exponentialhost.com/ui/terms",
+      "contact":{
+         "email":"dev@exponentialhost.com",
+         "name":"Exponential Host"
+      },
+      "version":"1.0.0",
+      "license":{
+         "name":"Apache 2.0",
+         "url":"https://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+   },
+   "servers":[
+      {
+         "url":"https://smart-image-cropper.exponential.host/",
+         "description":"Production server"
+      }
+   ],
+   "paths":{
+      "/crop":{
+         "post":{
+            "summary":"Crop an image",
+            "requestBody":{
+               "content":{
+                  "multipart/form-data":{
+                     "schema":{
+                        "$ref":"#/components/schemas/crop_body"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Successfully cropped image",
+                  "content":{
+                     "image/jpeg":{
+                        "schema":{
+                           "type":"string",
+                           "format":"binary"
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Bad request."
+               },
+               "401":{
+                  "description":"The request was unacceptable. API KEY validation failed."
+               },
+               "500":{
+                  "description":" The request could not be completed due to an error on the server side."
+               },
+               "503":{
+                  "description":"The server was unavailable."
+               }
+            }
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "crop_coordinates":{
+            "type":"object",
+            "properties":{
+               "x":{
+                  "type":"integer",
+                  "description":"x-coordinate of the top-left corner of the crop region."
+               },
+               "y":{
+                  "type":"integer",
+                  "description":"y-coordinate of the top-left corner of the crop region."
+               },
+               "width":{
+                  "type":"integer",
+                  "description":"Width of the crop region."
+               },
+               "height":{
+                  "type":"integer",
+                  "description":"Height of the crop region."
+               }
+            }
+         },
+         "crop_body":{
+            "properties":{
+               "image":{
+                  "type":"string",
+                  "description":"The image to be cropped.",
+                  "format":"binary"
+               },
+               "coordinates":{
+                  "$ref":"#/components/schemas/crop_coordinates"
+               }
+            }
+         }
+      }
+   }
+}
