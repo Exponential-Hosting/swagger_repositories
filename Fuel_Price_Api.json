@@ -1,0 +1,103 @@
+{
+   "openapi":"3.0.0",
+   "info":{
+      "title":"Fuel Prices API",
+      "description":"A simple API to retrieve fuel prices for different locations",
+      "termsOfService":"https://www.exponentialhost.com/ui/terms",
+      "contact":{
+         "email":"dev@exponentialhost.com",
+         "name":"Exponential Host"
+      },
+      "version":"1.0.0",
+      "license":{
+         "name":"Needs update",
+         "url":"Needs update"
+      }
+   },
+   "servers":[
+      {
+         "url":"https://stock-quote-tracker.Exponential.host/",
+         "description":"Production server"
+      }
+   ],
+   "paths":{
+      "/prices":{
+         "get":{
+            "summary":"Retrieve fuel prices for a specific location",
+            "parameters":[
+               {
+                  "name":"location",
+                  "in":"query",
+                  "description":"The location for which to retrieve fuel prices",
+                  "required":true,
+                  "style":"form",
+                  "explode":true,
+                  "schema":{
+                     "type":"string"
+                  }
+               },
+               {
+                  "name":"fuel_type",
+                  "in":"query",
+                  "description":"The type of fuel for which to retrieve prices. If not specified, all fuel types will be returned",
+                  "required":false,
+                  "style":"form",
+                  "explode":true,
+                  "schema":{
+                     "type":"string",
+                     "enum":[
+                        "unleaded",
+                        "diesel",
+                        "premium"
+                     ]
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully retrieved fuel prices",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/inline_response_200"
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Invalid location or fuel type specified"
+               },
+               "500":{
+                  "description":"An error occurred while retrieving fuel prices"
+               }
+            }
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "inline_response_200":{
+            "type":"object",
+            "properties":{
+               "location":{
+                  "type":"string"
+               },
+               "fuel_prices":{
+                  "type":"object",
+                  "properties":{
+                     "unleaded":{
+                        "type":"number"
+                     },
+                     "diesel":{
+                        "type":"number"
+                     },
+                     "premium":{
+                        "type":"number"
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
