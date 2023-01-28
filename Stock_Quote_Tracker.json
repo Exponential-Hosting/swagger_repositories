@@ -1,0 +1,97 @@
+{
+   "openapi":"3.0.0",
+   "info":{
+      "title":"Stock Quote Tracker API",
+      "description":"An API for tracking stock quotes",
+      "version":"1.0.0",
+      "termsOfService":"https://www.exponentialhost.com/ui/terms",
+      "contact":{
+         "email":"dev@exponentialhost.com",
+         "name":"Exponential Host"
+      },
+      "version":"1.0.0",
+      "license":{
+         "name":"Needs update",
+         "url":"Needs update"
+      }
+   },
+   "servers":[
+      {
+         "url":"https://stock-quote-tracker.Exponential.host/",
+         "description":"Production server"
+      }
+   ],
+   "paths":{
+      "/quotes":{
+         "get":{
+            "summary":"Retrieve stock quotes",
+            "description":"This endpoint allows you to retrieve the current stock quotes for a given list of stocks.\n",
+            "parameters":[
+               {
+                  "name":"symbols",
+                  "in":"query",
+                  "description":"A comma-separated list of stock symbols",
+                  "required":true,
+                  "style":"form",
+                  "explode":true,
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string"
+                     }
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"A list of stock quotes",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/inline_response_200"
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Bad request."
+               },
+               "401":{
+                  "description":"The request was unacceptable. API KEY validation failed."
+               },
+               "500":{
+                  "description":" The request could not be completed due to an error on the server side."
+               },
+               "503":{
+                  "description":"The server was unavailable."
+               }
+            }
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "inline_response_200":{
+            "type":"object",
+            "properties":{
+               "symbol":{
+                  "type":"string",
+                  "description":"The stock symbol"
+               },
+               "last_price":{
+                  "type":"number",
+                  "description":"The last traded price"
+               },
+               "change":{
+                  "type":"number",
+                  "description":"The change in price since the last trade"
+               },
+               "change_percent":{
+                  "type":"number",
+                  "description":"The percent change in price since the last trade"
+               }
+            }
+         }
+      }
+   }
+}
